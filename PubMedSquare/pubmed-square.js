@@ -99,6 +99,7 @@ function pubmedSearch(query){
 					article.pmid = pmid;
 					article.affiliation = affiliation;
 					article.abbrevJournal = abbrevJournal;
+					article.registerClick($container);
 					article.render($container);
 				});
 			});
