@@ -21,19 +21,21 @@ $(document).ready(function() {
 		},
 		getSortData : {
 			citation : function ( $elem ) {
-				return parseInt( parseInt($elem.attr('citation')), 10 );
+				return parseInt($elem.attr('citation'), 10 );
+			},
+			date : function ( $elem ) {
+				return parseInt($elem.attr('date'), 10 );
 			}
 		}
-	});
+	}).isotope({ sortBy : 'date', sortAscending : false});
 
 	$('#sort-citations').click(function(){
 		$('#container').isotope({ sortBy : 'citation', sortAscending : false});
 		return false;
 	});
 
-
 	$('#sort-date').click(function(){
-		$('#container').isotope({ sortBy : 'original-order'});
+		$('#container').isotope({ sortBy : 'date', sortAscending : false});
 		return false;
 	});
 
@@ -62,7 +64,7 @@ function pubmedSearch(query){
 		type: "GET",
 		async: true,
 		url: "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi",
-		data: { db: "pubmed", retmax: "500", term: query }
+		data: { db: "pubmed", retmax: "1000", term: query }
 	}).done(function( xml ) {
 		var ids = [];
 		$(xml).find('IdList Id').each(function(){
@@ -85,12 +87,32 @@ function pubmedSearch(query){
 			}).done(function( xml ) {
 
 				$(xml).find('PubmedArticle').each(function(){
+
+					var year = $(this).find('[PubStatus="entrez"] Year').text();
+					var month = $(this).find('[PubStatus="entrez"] Month').text();
+					var day = $(this).find('[PubStatus="entrez"] Day').text();
+					var daydate = year*365 + month*12 + day;
+					
+					var authorsList = "";
+					
+					var authors = $(this).find('AuthorList Author').each(function(){
+						var lastname = $(this).find('LastName').text();
+						var initial = $(this).find('Initials').text();
+						
+						if(authorsList == ""){
+							authorsList = lastname + " " + initial;
+						}else{
+							authorsList += ", " + lastname + " " + initial;
+						}
+						
+					});
+																				
 					var title = $(this).find('ArticleTitle').text();
 					var issn = $(this).find('ISSNLinking').text();
 					var pmid = $(this).find('PMID').text();
 					var affiliation = $(this).find('Affiliation').text();
 					var abbrevJournal = $(this).find('ISOAbbreviation').text();
-					
+
 					var impact = getCitation(issn);
 					var article = new Article();
 					//TODO gerer les errueurs si les fielsds sont blanc, checl for null
@@ -99,6 +121,9 @@ function pubmedSearch(query){
 					article.pmid = pmid;
 					article.affiliation = affiliation;
 					article.abbrevJournal = abbrevJournal;
+					article.date = daydate;
+					article.authors = authorsList;
+					console.log(authorsList);
 					article.registerClick($container);
 					article.render($container);
 				});

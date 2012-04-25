@@ -1,10 +1,11 @@
 function Article() {
 	
 	this.journal_citation;
-	this.element = $('<div class="article element" citation="0"></div>');
+	this.element = $('<div class="article element" citation="0" date="0"></div>');
 	this.title = "[Title not retieved]";
-	//TODO: publi type, authors, date, abstract
+	//TODO: publi type, abstract
 	this.date;
+	this.authors;
 	this.abbrevJournal;
 	this.pmid;
 	this.abstractText;
@@ -35,8 +36,8 @@ Article.prototype.render = function($container){
 	this.element.text(this.title);
 	this.element.css('background-color', this.color);
 	this.element.attr('citation', this.journal_citation);
+	this.element.attr('date', this.date);
 	$('#container').isotope( 'insert', this.element );
-	console.log(this);
 };
 
 Article.prototype.setImpact = function(impact){
