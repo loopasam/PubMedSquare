@@ -81,6 +81,10 @@ margin-top: 25px;
 	border: 1px solid black;
 }
 
+.review{
+	border: 2px solid blue;
+}
+
 #container {
 	width: 100%;
 	float: left;

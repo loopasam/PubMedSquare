@@ -1,6 +1,7 @@
 $(document).ready(function() {
 
 	current_query = $('#search-bar-input').val();
+	//TODO convert the review tag into review query: (rdf) AND "review"[Filter]
 
 	$('#search-button').click(function(){
 		//TODO check if the query is still the same
@@ -39,8 +40,15 @@ $(document).ready(function() {
 		return false;
 	});
 
+	$('#show-review').toggle(function(){
+		$('#container').isotope({ filter: '.review' });
+		return false;
+	}, function(){
+		$('#container').isotope({ filter: '*' });
+	});
+
+
 	$('#more-results').click(function(){
-		console.log("clicked");
 		pubmedSearch(current_query);
 		return false;
 	});
@@ -58,7 +66,7 @@ function pubmedSearch(query){
 	$("#loading").show();
 	moveSearchBarToTheTop();
 	current_query = query;
-	//TODO dealing with the errors there
+	//TODO dealing with the query errors there
 	//TODO put this request dans une method separee
 	$.ajax({
 		type: "GET",
@@ -72,6 +80,7 @@ function pubmedSearch(query){
 		});
 
 		var id_to_retrieve = [];
+		//TODO error message if no more things available
 		for(var i = window_articles; i < window_articles + 20; i++){
 			if(ids[i] != undefined){
 				id_to_retrieve.push(ids[i]);
@@ -92,28 +101,37 @@ function pubmedSearch(query){
 					var month = $(this).find('[PubStatus="entrez"] Month').text();
 					var day = $(this).find('[PubStatus="entrez"] Day').text();
 					var daydate = year*365 + month*12 + day;
-					
+
 					var authorsList = "";
-					
+
 					var authors = $(this).find('AuthorList Author').each(function(){
 						var lastname = $(this).find('LastName').text();
 						var initial = $(this).find('Initials').text();
-						
+
 						if(authorsList == ""){
 							authorsList = lastname + " " + initial;
 						}else{
 							authorsList += ", " + lastname + " " + initial;
 						}
-						
+
 					});
-																				
+
+					var publicationTypes = [];
+					$(this).find('PublicationTypeList PublicationType').each(function(){
+						var publication = $(this).text();
+						publicationTypes.push(publication.toLowerCase());
+					});
+					
+					
+					var abstractText = $(this).find('AbstractText').text();
 					var title = $(this).find('ArticleTitle').text();
 					var issn = $(this).find('ISSNLinking').text();
 					var pmid = $(this).find('PMID').text();
 					var affiliation = $(this).find('Affiliation').text();
 					var abbrevJournal = $(this).find('ISOAbbreviation').text();
-
 					var impact = getCitation(issn);
+
+
 					var article = new Article();
 					//TODO gerer les errueurs si les fielsds sont blanc, checl for null
 					article.setImpact(impact);
@@ -123,13 +141,24 @@ function pubmedSearch(query){
 					article.abbrevJournal = abbrevJournal;
 					article.date = daydate;
 					article.authors = authorsList;
-					console.log(authorsList);
+					article.publicationTypes = publicationTypes;
+					article.isReview = isReview(publicationTypes);
+					article.abstractText = abstractText;
 					article.registerClick($container);
 					article.render($container);
 				});
 			});
 		}
 	});
+}
+
+function isReview(publicationTypes){
+	for(var i in publicationTypes){
+		if(publicationTypes[i] == "review"){
+			return true;
+		}
+	}
+	return false;
 }
 
 function moveSearchBarToTheTop(){
