@@ -1,5 +1,5 @@
 $(document).ready(function() {
-
+	
 	current_query = $('#search-bar-input').val();
 	//TODO convert the review tag into review query: (rdf) AND "review"[Filter]
 
@@ -18,7 +18,7 @@ $(document).ready(function() {
 
 	$('#container').isotope({
 		masonry: {
-			columnWidth: 0
+			columnWidth: (147/2)+10
 		},
 		getSortData : {
 			citation : function ( $elem ) {
@@ -130,7 +130,9 @@ function pubmedSearch(query){
 					var affiliation = $(this).find('Affiliation').text();
 					var abbrevJournal = $(this).find('ISOAbbreviation').text();
 					var impact = getCitation(issn);
-
+					if(isNaN(impact)){
+						console.log(abbrevJournal);
+					}
 
 					var article = new Article();
 					//TODO gerer les errueurs si les fielsds sont blanc, checl for null

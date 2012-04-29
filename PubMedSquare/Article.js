@@ -25,17 +25,22 @@ Article.prototype.registerClick = function($container){
 
 		that.css('height', height*2 + "px");
 		that.css('width', width*2 + "px");
-		//TODO: trying to reload items
-		$("#container").isotope({
-			masonry: {
-				columnWidth: 50
-			}
-		});
+		$("#container").isotope( 'reLayout');
+
 	});
 };
 
 Article.prototype.render = function($container){
-	this.element.text(this.title);
+	
+	var trimmedTitle;
+	if(this.title.length > 110){
+		trimmedTitle = this.title.substring(0, 110) + "...";
+	}else{
+		trimmedTitle = this.title;
+	}
+	
+	var titleArticle = $('<div class="text-title-article">' + trimmedTitle + '</div>');
+	this.element.append(titleArticle);
 	this.element.css('background-color', this.color);
 	this.element.attr('citation', this.journal_citation);
 	//TODO display date et abstract et author
@@ -45,32 +50,35 @@ Article.prototype.render = function($container){
 	if(this.isReview == true){
 		this.element.addClass("review");
 	}
-	
 	$('#container').isotope( 'insert', this.element );
+
+	var sizeText = titleArticle.height();
+	titleArticle.css('margin-top', '-' + sizeText/2 + 'px');
+
 };
 
 Article.prototype.setImpact = function(impact){
-	//TODO statements
 	
 	if(impact != undefined){
 		this.journal_citation = impact;
 	}
-	var red = 255 - Math.round(impact*255/94);
-	var green = 255 - Math.round(impact*156/94);
+	
+	var red;
+	var green;
+	
+	if(impact < 11){
+		red = Math.round(-5.1*impact + 242);
+		green = Math.round(-2.3*impact + 249);
+	}else{
+		red = Math.round(-63*(impact - 10)/84 + 191);
+		green = Math.round(-29*(impact - 10)/84 + 226);
+	}
+	
+	 
 	if(isNaN(red)){
 		this.color = "#fff";
 	}else{
 		this.color = "rgb(" + red + ", " + green + ", 255)";
 	}
-	console.log(this.color);
 
-//	if(impact == 1){
-//		this.color = "orange";
-//	}else if(impact == 2){
-//		this.color = "yellow";
-//	}else if(impact > 2){
-//		this.color = "red";
-//	}else{
-//		this.color = "white";
-//	}
 };
