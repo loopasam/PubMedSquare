@@ -79,12 +79,12 @@ margin-top: 25px;
 	width: 147px;
 	height: 208px;
 	background-color: orange;
-	border: 3px solid #4dadff;
+/* 	border: 3px solid #4dadff; */
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
 	-khtml-border-radius: 5px;
     border-radius: 5px;
-	margin-top: 10px;
+	margin: 5px;
 	text-align: center;
 }
 
@@ -145,6 +145,30 @@ margin-top: 25px;
 
 #loading-text{
 	margin-top: -20px;	
+}
+
+.full-title{
+	display: none;
+}
+	
+.date-label{
+	display: none;
+}
+	
+.abbrev-journal{
+	display: none;
+}
+	
+.authors{
+	display: none;
+}
+	
+.affiliation{
+	display: none;
+}
+	
+.pmid{
+	display: none;
 }
 
 /**** Isotope Filtering ****/

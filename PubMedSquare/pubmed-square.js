@@ -1,5 +1,7 @@
 $(document).ready(function() {
-	
+
+	//TODO check if conencted --> error message
+
 	current_query = $('#search-bar-input').val();
 	//TODO convert the review tag into review query: (rdf) AND "review"[Filter]
 
@@ -18,7 +20,8 @@ $(document).ready(function() {
 
 	$('#container').isotope({
 		masonry: {
-			columnWidth: (147/2)+10
+			columnWidth: (157)
+
 		},
 		getSortData : {
 			citation : function ( $elem ) {
@@ -101,6 +104,8 @@ function pubmedSearch(query){
 					var month = $(this).find('[PubStatus="entrez"] Month').text();
 					var day = $(this).find('[PubStatus="entrez"] Day').text();
 					var daydate = year*365 + month*12 + day;
+					//TODO converting months in string 
+					var dateString = year + "/" + month + "/" + day;
 
 					var authorsList = "";
 
@@ -113,7 +118,6 @@ function pubmedSearch(query){
 						}else{
 							authorsList += ", " + lastname + " " + initial;
 						}
-
 					});
 
 					var publicationTypes = [];
@@ -121,18 +125,15 @@ function pubmedSearch(query){
 						var publication = $(this).text();
 						publicationTypes.push(publication.toLowerCase());
 					});
-					
-					
+
+
 					var abstractText = $(this).find('AbstractText').text();
 					var title = $(this).find('ArticleTitle').text();
 					var issn = $(this).find('ISSNLinking').text();
-					var pmid = $(this).find('PMID').text();
+					var pmid = $(this).find('MedlineCitation > PMID').text();
 					var affiliation = $(this).find('Affiliation').text();
 					var abbrevJournal = $(this).find('ISOAbbreviation').text();
 					var impact = getCitation(issn);
-					if(isNaN(impact)){
-						console.log(abbrevJournal);
-					}
 
 					var article = new Article();
 					//TODO gerer les errueurs si les fielsds sont blanc, checl for null
@@ -142,6 +143,7 @@ function pubmedSearch(query){
 					article.affiliation = affiliation;
 					article.abbrevJournal = abbrevJournal;
 					article.date = daydate;
+					article.dateString = dateString;
 					article.authors = authorsList;
 					article.publicationTypes = publicationTypes;
 					article.isReview = isReview(publicationTypes);
