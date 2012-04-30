@@ -18,13 +18,15 @@ function Article() {
 
 Article.prototype.registerClick = function($container){
 	var that = this.element;
+	
+	//TODO doucle click to close + alt text
 	this.element.toggle(function(){
 		var width = that.css('width');
 		width = width.substring(0, width.length - 2);
 		var height = that.css('height');
 		height = height.substring(0, height.length - 2);
-		var newHeight = height*2+10;
-		var newWidth = width*2+10;
+		var newHeight = height*2+16;
+		var newWidth = width*2+16;
 		that.css('height', newHeight + "px");
 		that.css('width', newWidth + "px");
 
@@ -38,8 +40,8 @@ Article.prototype.registerClick = function($container){
 		width = width.substring(0, width.length - 2);
 		var height = that.css('height');
 		height = height.substring(0, height.length - 2);
-		var newHeight = (height-10)/2;
-		var newWidth = (width-10)/2;
+		var newHeight = (height-16)/2;
+		var newWidth = (width-16)/2;
 		that.css('height', newHeight + "px");
 		that.css('width', newWidth + "px");
 
@@ -74,6 +76,21 @@ Article.prototype.render = function($container){
 
 	var fullTitle = $('<div class="full-title">'+this.title+'</div>');
 	this.element.append(fullTitle);
+	
+	var authorList = $('<div class="authors">'+ this.authors +'</div>');
+	this.element.append(authorList);
+
+	
+	var trimmedAffiliation;
+	if(this.affiliation.length > 180){
+		console.log(this.title);
+		trimmedAffiliation = this.affiliation.substring(0, 180) + "...";
+	}else{
+		trimmedAffiliation = this.affiliation;
+	}
+
+	var affiliation = $('<div class="affiliation">'+trimmedAffiliation+'</div>');
+	this.element.append(affiliation);
 
 	var dateStringElement = $('<div class="date-label">'+this.dateString+'</div>');
 	this.element.append(dateStringElement);
@@ -81,14 +98,10 @@ Article.prototype.render = function($container){
 	var abbrevJournal = $('<div class="abbrev-journal">' + this.abbrevJournal + '</div>');
 	this.element.append(abbrevJournal);
 
-	var authorList = $('<div class="authors">'+ this.authors +'</div>');
-	this.element.append(authorList);
-
-	var affiliation = $('<div class="affiliation">'+this.affiliation+'</div>');
-	this.element.append(affiliation);
-
-	var pmid = $('<div class="pmid">'+this.pmid+'</div>');
-	this.element.append(pmid);
+	var pmidLink = $('<div class="pmid-link"><a href="http://www.ncbi.nlm.nih.gov/pubmed/'+this.pmid+'">Get this article</a></div>');
+	this.element.append(pmidLink);
+//	var pmid = $('<div class="pmid">'+this.pmid+'</div>');
+//	this.element.append(pmid);
 
 	this.element.attr('date', this.date);
 	this.element.attr('isReview', this.isReview);

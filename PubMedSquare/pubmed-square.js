@@ -20,7 +20,7 @@ $(document).ready(function() {
 
 	$('#container').isotope({
 		masonry: {
-			columnWidth: (157)
+			columnWidth: (163)
 
 		},
 		getSortData : {
@@ -31,15 +31,18 @@ $(document).ready(function() {
 				return parseInt($elem.attr('date'), 10 );
 			}
 		}
-	}).isotope({ sortBy : 'date', sortAscending : false});
+	}).isotope({ sortBy : 'date', sortAscending : true});
 
+	
+	//TODO enlarge all
+	
 	$('#sort-citations').click(function(){
 		$('#container').isotope({ sortBy : 'citation', sortAscending : false});
 		return false;
 	});
 
 	$('#sort-date').click(function(){
-		$('#container').isotope({ sortBy : 'date', sortAscending : false});
+		$('#container').isotope({ sortBy : 'date', sortAscending : true});
 		return false;
 	});
 

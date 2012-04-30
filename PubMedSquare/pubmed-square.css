@@ -79,7 +79,7 @@ margin-top: 25px;
 	width: 147px;
 	height: 208px;
 	background-color: orange;
-/* 	border: 3px solid #4dadff; */
+	border: 3px solid #4dadff;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
 	-khtml-border-radius: 5px;
@@ -96,7 +96,7 @@ margin-top: 25px;
 }
 
 .review{
-	border: 2px solid blue;
+	border: 3px dashed #4dadff;
 }
 
 #container {
@@ -148,29 +148,51 @@ margin-top: 25px;
 }
 
 .full-title{
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-top: 15px;
+	font-size: 120%;
+	font-weight: bold;
 	display: none;
 }
 	
 .date-label{
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-top: 15px;
 	display: none;
 }
 	
 .abbrev-journal{
+	font-size: 110%;
 	display: none;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-top: 15px;
 }
 	
 .authors{
+	font-style: italic;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-top: 15px;
 	display: none;
 }
 	
 .affiliation{
+	font-size: 90%;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-top: 15px;
 	display: none;
 }
 	
-.pmid{
+.pmid-link{
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-top: 15px;
 	display: none;
 }
-
 /**** Isotope Filtering ****/
 
 .isotope-item {
