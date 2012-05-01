@@ -1,7 +1,7 @@
 function Article() {
 
 	this.journal_citation;
-	this.element = $('<div class="article element" citation="0" date="0" ></div>');
+	this.element = $('<div class="small article element" citation="0" date="0" ></div>');
 	this.title = "[Title not retieved]";
 	this.abstractText = "[No abstract available]";
 	this.publicationTypes = [];
@@ -20,35 +20,47 @@ Article.prototype.registerClick = function($container){
 	var that = this.element;
 	
 	//TODO doucle click to close + alt text
-	this.element.toggle(function(){
-		var width = that.css('width');
-		width = width.substring(0, width.length - 2);
-		var height = that.css('height');
-		height = height.substring(0, height.length - 2);
-		var newHeight = height*2+16;
-		var newWidth = width*2+16;
-		that.css('height', newHeight + "px");
-		that.css('width', newWidth + "px");
+	this.element.click(function(){
+		
+		if(that.hasClass("small")){
+			that.removeClass("small");
+			that.addClass("big");
+			var width = that.css('width');
+			width = width.substring(0, width.length - 2);
+			var height = that.css('height');
+			height = height.substring(0, height.length - 2);
+			var newHeight = height*2+16;
+			var newWidth = width*2+16;
+			that.css('height', newHeight + "px");
+			that.css('width', newWidth + "px");
+			that.children().show();
+			that.find('.text-title-article').hide();
 
-		that.children().show();
-		that.find('.text-title-article').hide();
+			$("#container").isotope( 'reLayout');
+		}
+		
+	});
+	
+	this.element.dblclick(function(){
+		
+		if(that.hasClass("big")){
+			that.removeClass("big");
+			that.addClass("small");
+			var width = that.css('width');
+			width = width.substring(0, width.length - 2);
+			var height = that.css('height');
+			height = height.substring(0, height.length - 2);
+			var newHeight = (height-16)/2;
+			var newWidth = (width-16)/2;
+			that.css('height', newHeight + "px");
+			that.css('width', newWidth + "px");
 
-		$("#container").isotope( 'reLayout');
+			that.children().hide();
+			that.find('.text-title-article').show();
 
-	}, function(){
-		var width = that.css('width');
-		width = width.substring(0, width.length - 2);
-		var height = that.css('height');
-		height = height.substring(0, height.length - 2);
-		var newHeight = (height-16)/2;
-		var newWidth = (width-16)/2;
-		that.css('height', newHeight + "px");
-		that.css('width', newWidth + "px");
-
-		that.children().hide();
-		that.find('.text-title-article').show();
-
-		$("#container").isotope( 'reLayout');
+			$("#container").isotope( 'reLayout');
+		}
+		
 
 	});
 };
@@ -72,8 +84,7 @@ Article.prototype.render = function($container){
 		this.element.addClass("review");
 	}
 	$('#container').isotope( 'insert', this.element );
-
-
+	
 	var fullTitle = $('<div class="full-title">'+this.title+'</div>');
 	this.element.append(fullTitle);
 	
@@ -95,10 +106,11 @@ Article.prototype.render = function($container){
 	var dateStringElement = $('<div class="date-label">'+this.dateString+'</div>');
 	this.element.append(dateStringElement);
 
+	//TODO problem journal mapping
 	var abbrevJournal = $('<div class="abbrev-journal">' + this.abbrevJournal + '</div>');
 	this.element.append(abbrevJournal);
 
-	var pmidLink = $('<div class="pmid-link"><a href="http://www.ncbi.nlm.nih.gov/pubmed/'+this.pmid+'">Get this article</a></div>');
+	var pmidLink = $('<div class="pmid-link"><a href="http://www.ncbi.nlm.nih.gov/pubmed/'+this.pmid+'">Get article</a>Show abstract - Close</div>');
 	this.element.append(pmidLink);
 //	var pmid = $('<div class="pmid">'+this.pmid+'</div>');
 //	this.element.append(pmid);
