@@ -78,7 +78,6 @@ body {
 	cursor: pointer;
 	width: 147px;
 	height: 208px;
-	background-color: orange;
 	border: 3px solid #4dadff;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
@@ -104,16 +103,17 @@ body {
 }
 
 #filter-box {
-	margin-top: 80px;
-	width: 60%;
-	background-color: orange;
-	margin-left: 20%;
+	display: none;
+	margin-top: 100px;
+	margin-bottom: 15px;
+	width: 80%;
+	margin-left: 10%;
 	float: left;
 }
 
 .button-container {
 	text-align: center;
-	width: 25%;
+	width: 16.7%;
 	position: relative;
 	float: left;
 }
@@ -140,6 +140,35 @@ body {
 	background: url("ajax-loader.gif") no-repeat center;
 	height: 32px;
 	width: 100%;
+}
+
+.button-filter{
+	text-overflow: ellipsis;
+	border: 2px solid #d4d4d4;
+	font-weight: bold;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-khtml-border-radius: 5px;
+	border-radius: 5px;
+	background-color: #4dadff;
+	color: #fff;
+	width: 90%;
+	margin-left: 5%;
+	cursor: pointer;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+.button-filter:hover{
+	background-color: #8ac9ff;
+}
+
+.clicked{
+	background-color: #ecb274;
+}
+
+.clicked:hover{
+	background-color: #ecc192;
 }
 
 #loading-text {
@@ -193,7 +222,8 @@ body {
 }
 
 .pmid-link {
-	
+	display: inline-block;
+
 }
 
 .show-abstract-button {
@@ -223,6 +253,7 @@ body {
 }
 
 .button-extended {
+	text-decoration: none;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
 	-khtml-border-radius: 5px;

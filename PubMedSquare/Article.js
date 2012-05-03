@@ -129,7 +129,7 @@ Article.prototype.render = function($container){
 	
 	var buttonsHolder = $('<div class="button-holder"></div>');
 
-	var pmidLink = $('<div title="Get the article on PubMed" class="pmid-link button-extended"><a href="http://www.ncbi.nlm.nih.gov/pubmed/'+this.pmid+'" target="BLANK">Get article</a></div>');
+	var pmidLink = $('<div title="Get the article on PubMed" class="pmid-link "><a class="button-extended" href="http://www.ncbi.nlm.nih.gov/pubmed/'+this.pmid+'" target="BLANK">Get article</a></div>');
 	buttonsHolder.append(pmidLink);
 
 	var showAbstractButton = $('<div title="Show/Hide the abstract" class="show-abstract-button button-extended">Show Abstract</div>');

@@ -33,33 +33,36 @@ $(document).ready(function() {
 		}
 	}).isotope({ sortBy : 'date', sortAscending : true});
 
-	
+
 	//TODO enlarge all
-	
+
 	$('#sort-citations').click(function(){
+		$('#sort-date > .button-filter').removeClass("clicked");
+		$('#sort-citations > .button-filter').addClass("clicked");
 		$('#container').isotope({ sortBy : 'citation', sortAscending : false});
 		return false;
 	});
 
 	$('#sort-date').click(function(){
+		$('#sort-citations > .button-filter').removeClass("clicked");
+		$('#sort-date > .button-filter').addClass("clicked");
 		$('#container').isotope({ sortBy : 'date', sortAscending : true});
 		return false;
 	});
 
 	$('#show-review').toggle(function(){
 		$('#container').isotope({ filter: '.review' });
+		$('#show-review > .button-filter').addClass("clicked");
 		return false;
 	}, function(){
 		$('#container').isotope({ filter: '*' });
+		$('#show-review > .button-filter').removeClass("clicked");
 	});
-
 
 	$('#more-results').click(function(){
 		pubmedSearch(current_query);
 		return false;
 	});
-
-
 
 });
 
@@ -100,15 +103,16 @@ function pubmedSearch(query){
 				url: "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi",
 				data: { db: "pubmed", id: id_to_retrieve.join(","), rettype: "full", retmode: "xml" }
 			}).done(function( xml ) {
-
+				$("#loading").hide();
+				$('#filter-box').show();
 				$(xml).find('PubmedArticle').each(function(){
 
 					var year = $(this).find('[PubStatus="entrez"] Year').text();
 					var month = $(this).find('[PubStatus="entrez"] Month').text();
 					var day = $(this).find('[PubStatus="entrez"] Day').text();
 					var daydate = year*365 + month*12 + day;
-					//TODO converting months in string 
-					var dateString = year + "/" + month + "/" + day;
+
+					var dateString = year + " " + getMonth(month) + " " + day;
 
 					var authorsList = "";
 
@@ -172,4 +176,25 @@ function moveSearchBarToTheTop(){
 	$("#out").animate({
 		top: "0%"
 	}, 800 );
+}
+
+function getMonth(number){
+	var month = "month";
+	switch (parseInt(number)) {
+	case 1: month = 'Jan'; break; 
+	case 2: month = 'Feb'; break;
+	case 3: month = 'Mar'; break;
+	case 4: month = 'Apr'; break;
+	case 5: month = 'May'; break;
+	case 6: month = 'Jun'; break;
+	case 7: month = 'Jul'; break;
+	case 8: month = 'Aug'; break;
+	case 9: month = 'Sep'; break;
+	case 10: month = 'Oct'; break;
+	case 11: month = 'Nov'; break;
+	case 12: month = 'Dec'; break;
+	}
+	return month;
+
+
 }
