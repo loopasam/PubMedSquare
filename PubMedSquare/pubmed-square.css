@@ -164,7 +164,7 @@ margin-top: 25px;
 }
 	
 .abbrev-journal{
-	font-size: 110%;
+	font-size: 120%;
 	display: none;
 	padding-left: 10px;
 	padding-right: 10px;
@@ -187,19 +187,24 @@ margin-top: 25px;
 	display: none;
 }
 	
-.pmid-link{
-	padding-left: 10px;
-	padding-right: 10px;
-	padding-top: 15px;
+.button-holder{
 	display: none;
 }
 
+.pmid-link{
+	margin-top: 15px;
+	display: inline-block;
+	background-color: green;
+}
+
 .show-abstract-button{
-	display: none;
+	margin-top: 15px;
+	display: inline-block;
 	background-color: blue;
 }
 
 .abstract-text{
+	text-align: justify;
 	padding-left: 10px;
 	padding-right: 10px;
 	padding-top: 15px;

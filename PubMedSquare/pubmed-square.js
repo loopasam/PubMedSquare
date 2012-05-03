@@ -135,7 +135,7 @@ function pubmedSearch(query){
 					var issn = $(this).find('ISSNLinking').text();
 					var pmid = $(this).find('MedlineCitation > PMID').text();
 					var affiliation = $(this).find('Affiliation').text();
-					var abbrevJournal = $(this).find('ISOAbbreviation').text();
+					var abbrevJournal = $(this).find('MedlineTA').text();
 					var impact = getCitation(issn);
 
 					var article = new Article();
