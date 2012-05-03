@@ -113,7 +113,7 @@ body {
 
 .button-container {
 	text-align: center;
-	width: 16.7%;
+	width: 16%;
 	position: relative;
 	float: left;
 }
@@ -134,6 +134,16 @@ body {
 	margin-top: 120px;
 	display: none;
 	text-align: center;
+}
+
+#loading-small{
+	background: url("ajax-loader.gif") no-repeat center;
+	height: 32px;
+	width: 32px;
+	position: absolute;
+	right: -40px;
+	top: 0px;
+	display: none;
 }
 
 #loading-gif {

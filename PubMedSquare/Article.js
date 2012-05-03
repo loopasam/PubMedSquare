@@ -20,67 +20,15 @@ Article.prototype.registerClick = function($container){
 	var that = this.element;
 
 	this.element.click(function(){
-
 		if(that.hasClass("small")){
-
-			that.removeClass("small");
-			that.addClass("big");
-			var width = that.css('width');
-			width = width.substring(0, width.length - 2);
-			var height = that.css('height');
-			height = height.substring(0, height.length - 2);
-			var newHeight = height*2+16;
-			var newWidth = width*2+16;
-			that.css('height', newHeight + "px");
-			that.css('width', newWidth + "px");
-			that.children().show();
-
-			that.find('.text-title-article').hide();
-			that.find('.abstract-text').hide();
-			that.attr('title', 'Double-click to close');
-
-			$("#container").isotope( 'reLayout');
+			animateToBig(that);
 		}
-
 	});
 
 	this.element.dblclick(function(){
-
 		if(that.hasClass("big")){
-
-			if(that.hasClass("extended")){
-				that.find('.abstract-text').hide();
-				that.find('.show-abstract-button').removeClass("extended-mode");
-				that.find('.show-abstract-button').text("Show Abstract");
-				that.removeClass("extended");
-				var width = that.css('width');
-				width = width.substring(0, width.length - 2);
-				var height = that.css('height');
-				height = height.substring(0, height.length - 2);
-				var newHeight = (height-16)/2;
-				var newWidth = (width-16)/2;
-				that.css('height', newHeight + "px");
-				that.css('width', newWidth + "px");
-			}
-
-			that.attr('title', 'Click to open');
-			that.removeClass("big");
-			that.addClass("small");
-			var width = that.css('width');
-			width = width.substring(0, width.length - 2);
-			var height = that.css('height');
-			height = height.substring(0, height.length - 2);
-			var newHeight = (height-16)/2;
-			var newWidth = (width-16)/2;
-			that.css('height', newHeight + "px");
-			that.css('width', newWidth + "px");
-
-			that.children().hide();
-			that.find('.text-title-article').show();
-
-			$("#container").isotope( 'reLayout');
+			animateToSmall(that);
 		}
-
 	});
 };
 
@@ -126,7 +74,7 @@ Article.prototype.render = function($container){
 
 	var abbrevJournal = $('<div class="abbrev-journal">' + this.abbrevJournal + '</div>');
 	this.element.append(abbrevJournal);
-	
+
 	var buttonsHolder = $('<div class="button-holder"></div>');
 
 	var pmidLink = $('<div title="Get the article on PubMed" class="pmid-link "><a class="button-extended" href="http://www.ncbi.nlm.nih.gov/pubmed/'+this.pmid+'" target="BLANK">Get article</a></div>');
@@ -135,16 +83,16 @@ Article.prototype.render = function($container){
 	var showAbstractButton = $('<div title="Show/Hide the abstract" class="show-abstract-button button-extended">Show Abstract</div>');
 	registerAbstractButton(this.element, showAbstractButton);
 	buttonsHolder.append(showAbstractButton);
-	
-	
+
+
 	this.element.append(buttonsHolder);
-	
-	
+
+
 	var trimmedAbstract = this.abstractText.replace(/(http:\/\/.*?)([\s(),]|\.{0,1}$)/g, '<a target="BLANK" href="$1">$1</a>$2');
 	if(this.abstractText.length > 2000){
 		trimmedAbstract = trimmedAbstract.substring(0, 2000) + '...<a target="BLANK" href="http://www.ncbi.nlm.nih.gov/pubmed/' +this.pmid+'">[read&nbsp;more]</a>';
 	}
-	
+
 	this.element.append('<div class="abstract-text">' +trimmedAbstract + '</div>');
 
 	this.element.attr('date', this.date);
@@ -214,4 +162,61 @@ function registerAbstractButton(element, showAbstractButton){
 		}
 		$("#container").isotope( 'reLayout');
 	});
+}
+
+function animateToBig(that){
+	that.removeClass("small");
+	that.addClass("big");
+	var width = that.css('width');
+	width = width.substring(0, width.length - 2);
+	var height = that.css('height');
+	height = height.substring(0, height.length - 2);
+	var newHeight = height*2+16;
+	var newWidth = width*2+16;
+	that.css('height', newHeight + "px");
+	that.css('width', newWidth + "px");
+	that.children().show();
+
+	that.find('.text-title-article').hide();
+	that.find('.abstract-text').hide();
+	that.attr('title', 'Double-click to close');
+
+	$("#container").isotope( 'reLayout');
+
+}
+
+function animateToSmall(that){
+
+	if(that.hasClass("extended")){
+		that.find('.abstract-text').hide();
+		that.find('.show-abstract-button').removeClass("extended-mode");
+		that.find('.show-abstract-button').text("Show Abstract");
+		that.removeClass("extended");
+		var width = that.css('width');
+		width = width.substring(0, width.length - 2);
+		var height = that.css('height');
+		height = height.substring(0, height.length - 2);
+		var newHeight = (height-16)/2;
+		var newWidth = (width-16)/2;
+		that.css('height', newHeight + "px");
+		that.css('width', newWidth + "px");
+	}
+
+	that.attr('title', 'Click to open');
+	that.removeClass("big");
+	that.addClass("small");
+	var width = that.css('width');
+	width = width.substring(0, width.length - 2);
+	var height = that.css('height');
+	height = height.substring(0, height.length - 2);
+	var newHeight = (height-16)/2;
+	var newWidth = (width-16)/2;
+	that.css('height', newHeight + "px");
+	that.css('width', newWidth + "px");
+
+	that.children().hide();
+	that.find('.text-title-article').show();
+
+	$("#container").isotope( 'reLayout');
+
 }

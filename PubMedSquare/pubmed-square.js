@@ -3,16 +3,18 @@ $(document).ready(function() {
 	//TODO check if conencted --> error message
 
 	current_query = $('#search-bar-input').val();
+
 	//TODO convert the review tag into review query: (rdf) AND "review"[Filter]
 
 	$('#search-button').click(function(){
 		//TODO check if the query is still the same
+		$("#loading").show();
 		pubmedSearch($('#search-bar-input').val());
 	});
 
 	$(document).keyup(function(e) {
 		if (e.keyCode == 13) {
-			pubmedSearch($('#search-bar-input').val());
+			$('#search-button').click();
 		}
 	});
 
@@ -21,7 +23,6 @@ $(document).ready(function() {
 	$('#container').isotope({
 		masonry: {
 			columnWidth: (163)
-
 		},
 		getSortData : {
 			citation : function ( $elem ) {
@@ -34,7 +35,26 @@ $(document).ready(function() {
 	}).isotope({ sortBy : 'date', sortAscending : true});
 
 
-	//TODO enlarge all
+	$('#expand-all').click(function(){
+		$('.article').each(function(){
+			if($(this).hasClass("small")){
+				animateToBig($(this));
+			}
+		});
+		$("#container").isotope( 'reLayout');
+		return false;
+	});
+	
+	$('#collapse-all').click(function(){
+		$('.article').each(function(){
+			if($(this).hasClass("big")){
+				animateToSmall($(this));
+			}
+		});
+		$("#container").isotope( 'reLayout');
+		return false;
+	});
+
 
 	$('#sort-citations').click(function(){
 		$('#sort-date > .button-filter').removeClass("clicked");
@@ -60,7 +80,12 @@ $(document).ready(function() {
 	});
 
 	$('#more-results').click(function(){
+		//TODO check if query is still the same
+		$('#loading-small').show();
+		//TODO finish here the loading mecanism
+		$('#more-results .button-filter').html("Loading results...");
 		pubmedSearch(current_query);
+		
 		return false;
 	});
 
@@ -72,7 +97,6 @@ var current_query;
 
 function pubmedSearch(query){
 
-	$("#loading").show();
 	moveSearchBarToTheTop();
 	current_query = query;
 	//TODO dealing with the query errors there
@@ -104,6 +128,7 @@ function pubmedSearch(query){
 				data: { db: "pubmed", id: id_to_retrieve.join(","), rettype: "full", retmode: "xml" }
 			}).done(function( xml ) {
 				$("#loading").hide();
+				$('#loading-small').hide();
 				$('#filter-box').show();
 				$(xml).find('PubmedArticle').each(function(){
 
