@@ -1,55 +1,54 @@
 body {
-	margin:0;
-	padding:0;
-	border:0;
-	width:100%;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	width: 100%;
 	font-size: 100%;
-	background:#fff;
-	min-width:600px;	
-	font-family: 'Open Sans',sans-serif;
+	background: #fff;
+	min-width: 600px;
+	font-family: 'Open Sans', sans-serif;
 }
 
-#out{
+#out {
 	position: absolute;
 	top: 40%;
 	width: 100%;
 	height: 80px;
-/* 	background-color: pink; */
+	/* 	background-color: pink; */
 }
 
-.column{
+.column {
 	height: 80px;
 	position: relative;
 	float: left;
 }
 
-.left, .right{
+.left,.right {
 	width: 20%;
 }
 
-.middle{
+.middle {
 	width: 60%;
 }
 
-#logo{
+#logo {
 	position: relative;
 	float: right;
 }
 
-#logo-text{
-line-height: 30px;
-font-size: 30px;
-margin-top: 25px;
+#logo-text {
+	line-height: 30px;
+	font-size: 30px;
+	margin-top: 25px;
 }
 
-#search-button{
+#search-button {
 	line-height: 30px;
 	position: absolute;
 	top: 50%;
 	margin-top: -15px;
 	font-size: 30px;
 	background-color: blue;
-	
 }
 
 #search-bar-input {
@@ -59,7 +58,7 @@ margin-top: 25px;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
 	-khtml-border-radius: 5px;
-    border-radius: 5px;
+	border-radius: 5px;
 	padding-top: 0px;
 	font-size: 30px;
 	height: 50px;
@@ -75,7 +74,8 @@ margin-top: 25px;
 	outline: 0;
 }
 
-.article{
+.article {
+	cursor: pointer;
 	width: 147px;
 	height: 208px;
 	background-color: orange;
@@ -83,19 +83,18 @@ margin-top: 25px;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
 	-khtml-border-radius: 5px;
-    border-radius: 5px;
+	border-radius: 5px;
 	margin: 5px;
 	text-align: center;
 }
 
-.text-title-article{
+.text-title-article {
 	position: absolute;
 	top: 50%;
 	padding: 5px;
-	
 }
 
-.review{
+.review {
 	border: 3px dashed #4dadff;
 }
 
@@ -104,7 +103,7 @@ margin-top: 25px;
 	float: left;
 }
 
-#filter-box{
+#filter-box {
 	margin-top: 80px;
 	width: 60%;
 	background-color: orange;
@@ -112,42 +111,42 @@ margin-top: 25px;
 	float: left;
 }
 
-.button-container{
+.button-container {
 	text-align: center;
 	width: 25%;
 	position: relative;
 	float: left;
 }
 
-#warning-text{
+#warning-text {
 	font-weight: bold;
 	color: red;
 	padding-bottom: 10px;
 	display: none;
 }
 
-#warning-box{
+#warning-box {
 	text-align: center;
 }
 
-#loading{
+#loading {
 	width: 100%;
 	margin-top: 120px;
 	display: none;
 	text-align: center;
 }
 
-#loading-gif{
+#loading-gif {
 	background: url("ajax-loader.gif") no-repeat center;
 	height: 32px;
 	width: 100%;
 }
 
-#loading-text{
-	margin-top: -20px;	
+#loading-text {
+	margin-top: -20px;
 }
 
-.full-title{
+.full-title {
 	padding-left: 10px;
 	padding-right: 10px;
 	padding-top: 15px;
@@ -155,98 +154,140 @@ margin-top: 25px;
 	font-weight: bold;
 	display: none;
 }
-	
-.date-label{
+
+.date-label {
 	padding-left: 10px;
 	padding-right: 10px;
 	padding-top: 15px;
 	display: none;
+	color: #363636;
 }
-	
-.abbrev-journal{
+
+.abbrev-journal {
 	font-size: 120%;
 	display: none;
 	padding-left: 10px;
 	padding-right: 10px;
 	padding-top: 15px;
 }
-	
-.authors{
+
+.authors {
 	font-style: italic;
 	padding-left: 10px;
 	padding-right: 10px;
 	padding-top: 15px;
 	display: none;
 }
-	
-.affiliation{
+
+.affiliation {
+	color: #454545; font-size : 90%;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-top: 15px;
+	display: none;
 	font-size: 90%;
-	padding-left: 10px;
-	padding-right: 10px;
-	padding-top: 15px;
+}
+
+.button-holder {
 	display: none;
 }
+
+.pmid-link {
 	
-.button-holder{
-	display: none;
 }
 
-.pmid-link{
-	margin-top: 15px;
-	display: inline-block;
-	background-color: green;
+.show-abstract-button {
+	
 }
 
-.show-abstract-button{
-	margin-top: 15px;
-	display: inline-block;
-	background-color: blue;
-}
-
-.abstract-text{
-	text-align: justify;
+.abstract-text {
+	line-height: 1.4em;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-khtml-border-radius: 5px;
+	border-radius: 5px;
+	background-color: #f2f2f2;
+	text-align : justify;
 	padding-left: 10px;
 	padding-right: 10px;
 	padding-top: 15px;
 	display: none;
+	text-align: justify;
+	margin-right: 5px;
+	margin-left: 5px;
 }
+
+.abstract-text a{
+	color: #4dadff;
+	text-decoration: none;
+}
+
+.button-extended {
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-khtml-border-radius: 5px;
+	border-radius: 5px;
+	margin-top: 15px;
+	margin-left: 5px;
+	padding: 4px;
+	display: inline-block;
+	background-color: #4dadff;
+	color: #fff;
+	width: 120px;
+	cursor: pointer;
+}
+
+.button-extended:hover{
+	background-color: #8ac9ff;
+}
+
+.extended-mode{
+	background-color: #f2f2f2;
+	color: #000;	
+}
+
+.extended-mode:hover{
+	background-color: #d4d4d4;
+}
+
+
+.button-extended a{
+	color: #fff;
+	text-decoration: none;
+}
+
 
 /**** Isotope Filtering ****/
-
 .isotope-item {
-  z-index: 2;
+	z-index: 2;
 }
 
 .isotope-hidden.isotope-item {
-  pointer-events: none;
-  z-index: 1;
+	pointer-events: none;
+	z-index: 1;
 }
 
 /**** Isotope CSS3 transitions ****/
-
-.isotope,
-.isotope .isotope-item {
-  -webkit-transition-duration: 0.8s;
-     -moz-transition-duration: 0.8s;
-      -ms-transition-duration: 0.8s;
-       -o-transition-duration: 0.8s;
-          transition-duration: 0.8s;
+.isotope,.isotope .isotope-item {
+	-webkit-transition-duration: 0.8s;
+	-moz-transition-duration: 0.8s;
+	-ms-transition-duration: 0.8s;
+	-o-transition-duration: 0.8s;
+	transition-duration: 0.8s;
 }
 
 .isotope {
-  -webkit-transition-property: height, width;
-     -moz-transition-property: height, width;
-      -ms-transition-property: height, width;
-       -o-transition-property: height, width;
-          transition-property: height, width;
+	-webkit-transition-property: height, width;
+	-moz-transition-property: height, width;
+	-ms-transition-property: height, width;
+	-o-transition-property: height, width;
+	transition-property: height, width;
 }
 
 .isotope .isotope-item {
-  -webkit-transition-property: -webkit-transform, opacity;
-     -moz-transition-property:    -moz-transform, opacity;
-      -ms-transition-property:     -ms-transform, opacity;
-       -o-transition-property:         top, left, opacity;
-          transition-property:         transform, opacity;
+	-webkit-transition-property: -webkit-transform, opacity;
+	-moz-transition-property: -moz-transform, opacity;
+	-ms-transition-property: -ms-transform, opacity;
+	-o-transition-property: top, left, opacity;
+	transition-property: transform, opacity;
 }
-
-

@@ -50,6 +50,8 @@ Article.prototype.registerClick = function($container){
 
 			if(that.hasClass("extended")){
 				that.find('.abstract-text').hide();
+				that.find('.show-abstract-button').removeClass("extended-mode");
+				that.find('.show-abstract-button').text("Show Abstract");
 				that.removeClass("extended");
 				var width = that.css('width');
 				width = width.substring(0, width.length - 2);
@@ -127,17 +129,23 @@ Article.prototype.render = function($container){
 	
 	var buttonsHolder = $('<div class="button-holder"></div>');
 
-	var pmidLink = $('<div class="pmid-link"><a href="http://www.ncbi.nlm.nih.gov/pubmed/'+this.pmid+'" target="BLANK">Get article</a></div>');
+	var pmidLink = $('<div title="Get the article on PubMed" class="pmid-link button-extended"><a href="http://www.ncbi.nlm.nih.gov/pubmed/'+this.pmid+'" target="BLANK">Get article</a></div>');
 	buttonsHolder.append(pmidLink);
 
-	var showAbstractButton = $('<div class="show-abstract-button">Show Abstract</div>');
+	var showAbstractButton = $('<div title="Show/Hide the abstract" class="show-abstract-button button-extended">Show Abstract</div>');
 	registerAbstractButton(this.element, showAbstractButton);
 	buttonsHolder.append(showAbstractButton);
 	
 	
 	this.element.append(buttonsHolder);
-
-	this.element.append('<div class="abstract-text">' +this.abstractText + '</div>');
+	
+	
+	var trimmedAbstract = this.abstractText.replace(/(http:\/\/.*?)([\s(),]|\.{0,1}$)/g, '<a target="BLANK" href="$1">$1</a>$2');
+	if(this.abstractText.length > 2000){
+		trimmedAbstract = trimmedAbstract.substring(0, 2000) + '...<a target="BLANK" href="http://www.ncbi.nlm.nih.gov/pubmed/' +this.pmid+'">[read&nbsp;more]</a>';
+	}
+	
+	this.element.append('<div class="abstract-text">' +trimmedAbstract + '</div>');
 
 	this.element.attr('date', this.date);
 	this.element.attr('isReview', this.isReview);
@@ -178,7 +186,8 @@ function registerAbstractButton(element, showAbstractButton){
 		var text = element.find(".abstract-text");
 
 		if(element.hasClass("extended")){
-			showAbstractButton.css('background-color', 'blue');
+			showAbstractButton.removeClass("extended-mode");
+			showAbstractButton.text("Show Abstract");
 			text.hide();
 			element.removeClass("extended");
 			var width = element.css('width');
@@ -191,7 +200,8 @@ function registerAbstractButton(element, showAbstractButton){
 			element.css('width', newWidth + "px");
 		}else{
 			text.show();
-			showAbstractButton.css('background-color', 'yellow');
+			showAbstractButton.addClass("extended-mode");
+			showAbstractButton.text("Hide Abstract");
 			element.addClass("extended");
 			var width = element.css('width');
 			width = width.substring(0, width.length - 2);
