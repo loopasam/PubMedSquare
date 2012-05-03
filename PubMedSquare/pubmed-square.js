@@ -2,21 +2,42 @@ $(document).ready(function() {
 
 	//TODO check if conencted --> error message
 
+	//TODO explanation when click on 'pubmed logo'
+
 	current_query = $('#search-bar-input').val();
+	$('#search-bar-input').val(help_text);
 
 	//TODO convert the review tag into review query: (rdf) AND "review"[Filter]
 
 	$('#search-button').click(function(){
 		//TODO check if the query is still the same
+		//TODO ne pas forcement afficher le loading
 		$("#loading").show();
 		pubmedSearch($('#search-bar-input').val());
 	});
 
 	$(document).keyup(function(e) {
+		//TODO checker s'il reste des articles a DL ou nan
 		if (e.keyCode == 13) {
 			$('#search-button').click();
 		}
 	});
+
+	$('#search-bar-input').focus(function(){
+		if($(this).val() == help_text){
+			$(this).val("");
+			$(this).removeClass("indication");
+		}
+	});
+
+	$('#search-bar-input').focusout(function(){
+		if($(this).val() == ""){
+			$(this).val(help_text);
+			$(this).addClass("indication");
+		}
+
+	});
+
 
 
 
@@ -36,22 +57,28 @@ $(document).ready(function() {
 
 
 	$('#expand-all').click(function(){
-		$('.article').each(function(){
-			if($(this).hasClass("small")){
-				animateToBig($(this));
-			}
+		$('#loading-small').show(function(){
+			$('.article').each(function(){
+				if($(this).hasClass("small")){
+					animateToBig($(this));
+				}
+			});
+			$('#loading-small').hide();
 		});
-		$("#container").isotope( 'reLayout');
+
+
 		return false;
 	});
-	
+
 	$('#collapse-all').click(function(){
-		$('.article').each(function(){
-			if($(this).hasClass("big")){
-				animateToSmall($(this));
-			}
+		$('#loading-small').show(function(){
+			$('.article').each(function(){
+				if($(this).hasClass("big")){
+					animateToSmall($(this));
+				}
+			});
+			$('#loading-small').hide();
 		});
-		$("#container").isotope( 'reLayout');
 		return false;
 	});
 
@@ -81,11 +108,12 @@ $(document).ready(function() {
 
 	$('#more-results').click(function(){
 		//TODO check if query is still the same
-		$('#loading-small').show();
-		//TODO finish here the loading mecanism
-		$('#more-results .button-filter').html("Loading results...");
-		pubmedSearch(current_query);
-		
+		if(!$('#more-results .button-filter').hasClass('loading')){
+			$('#loading-small').show();
+			$('#more-results .button-filter').html("Loading articles...");
+			$('#more-results .button-filter').addClass('loading');
+			pubmedSearch(current_query);
+		}
 		return false;
 	});
 
@@ -94,32 +122,38 @@ $(document).ready(function() {
 var $container = $('#container');
 var window_articles = 0;
 var current_query;
+var help_text = "Keywords (e.g. 'cancer'), title, author, date, #review";
 
 function pubmedSearch(query){
 
 	moveSearchBarToTheTop();
 	current_query = query;
-	//TODO dealing with the query errors there
+	//TODO dealing with the query errors there like no results, etx....
 	//TODO put this request dans une method separee
 	$.ajax({
 		type: "GET",
 		async: true,
 		url: "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi",
-		data: { db: "pubmed", retmax: "1000", term: query }
+		data: { db: "pubmed", retmax: window_articles+20, term: query }
 	}).done(function( xml ) {
 		var ids = [];
 		$(xml).find('IdList Id').each(function(){
 			ids.push($(this).text());
 		});
 
+		var numberOfArticles = $(xml).find('eSearchResult > Count').text();
 		var id_to_retrieve = [];
+		var noMoreResults = false;
 		//TODO error message if no more things available
 		for(var i = window_articles; i < window_articles + 20; i++){
 			if(ids[i] != undefined){
 				id_to_retrieve.push(ids[i]);
+			}else{
+				noMoreResults = true;
 			}
 		}
-		window_articles = window_articles + 20;
+
+		window_articles = window_articles + id_to_retrieve.length;
 		if(id_to_retrieve[0] != undefined){
 			$.ajax({
 				type: "GET",
@@ -127,9 +161,20 @@ function pubmedSearch(query){
 				url: "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi",
 				data: { db: "pubmed", id: id_to_retrieve.join(","), rettype: "full", retmode: "xml" }
 			}).done(function( xml ) {
+				$('#warning-text').html(window_articles + " articles over " + numberOfArticles);
 				$("#loading").hide();
 				$('#loading-small').hide();
 				$('#filter-box').show();
+				$('#warning-text').show();
+				if(noMoreResults){
+					$('#more-results .button-filter').addClass('loading');
+					$('#more-results .button-filter').html("No more results");
+					$('#more-results .button-filter').addClass("blocked");
+				}else{
+					$('#more-results .button-filter').html("More results");
+					$('#more-results .button-filter').removeClass('loading');
+				}
+
 				$(xml).find('PubmedArticle').each(function(){
 
 					var year = $(this).find('[PubStatus="entrez"] Year').text();

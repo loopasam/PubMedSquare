@@ -35,6 +35,7 @@ Article.prototype.registerClick = function($container){
 Article.prototype.render = function($container){
 
 	//TODO put a while loop and check for text height instead
+	//TODO check for long words
 	var trimmedTitle;
 	if(this.title.length > 110){
 		trimmedTitle = this.title.substring(0, 110) + "...";
@@ -66,6 +67,7 @@ Article.prototype.render = function($container){
 		trimmedAffiliation = this.affiliation;
 	}
 
+	//TODO deal with affiliation like abstract
 	var affiliation = $('<div class="affiliation">'+trimmedAffiliation+'</div>');
 	this.element.append(affiliation);
 
@@ -93,6 +95,10 @@ Article.prototype.render = function($container){
 		trimmedAbstract = trimmedAbstract.substring(0, 2000) + '...<a target="BLANK" href="http://www.ncbi.nlm.nih.gov/pubmed/' +this.pmid+'">[read&nbsp;more]</a>';
 	}
 
+	if(trimmedAbstract == ""){
+		trimmedAbstract = "[No abstract available]";
+	}
+	
 	this.element.append('<div class="abstract-text">' +trimmedAbstract + '</div>');
 
 	this.element.attr('date', this.date);
