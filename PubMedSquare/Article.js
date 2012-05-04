@@ -56,6 +56,7 @@ Article.prototype.render = function($container){
 	var fullTitle = $('<div class="full-title">'+this.title+'</div>');
 	this.element.append(fullTitle);
 
+	//TODO verifier la taille author arrtay
 	var authorList = $('<div class="authors">'+ this.authors +'</div>');
 	this.element.append(authorList);
 
