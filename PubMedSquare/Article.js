@@ -32,7 +32,7 @@ Article.prototype.registerClick = function($container){
 	});
 };
 
-Article.prototype.render = function($container){
+Article.prototype.render = function($container, renderingMethod){
 
 	//TODO put a while loop and check for text height instead
 	//TODO check for long words
@@ -51,7 +51,15 @@ Article.prototype.render = function($container){
 	if(this.isReview == true){
 		this.element.addClass("review");
 	}
-	$('#container').isotope( 'insert', this.element );
+	this.element.attr('date', this.date);
+	this.element.attr('isReview', this.isReview);
+
+	if(renderingMethod == "insert"){
+		$('#container').isotope( 'insert', this.element );
+	}else if(renderingMethod == "append"){
+		$('#container').append( this.element).isotope( 'reloadItems' ).isotope({ sortBy : 'date', sortAscending : false});
+	}
+
 
 	var fullTitle = $('<div class="full-title">'+this.title+'</div>');
 	this.element.append(fullTitle);
@@ -99,11 +107,8 @@ Article.prototype.render = function($container){
 	if(trimmedAbstract == ""){
 		trimmedAbstract = "[No abstract available]";
 	}
-	
-	this.element.append('<div class="abstract-text">' +trimmedAbstract + '</div>');
 
-	this.element.attr('date', this.date);
-	this.element.attr('isReview', this.isReview);
+	this.element.append('<div class="abstract-text">' +trimmedAbstract + '</div>');
 
 	var sizeText = titleArticle.height();
 	titleArticle.css('margin-top', '-' + sizeText/2 + 'px');

@@ -129,7 +129,7 @@ body {
 
 #filter-box {
 	display: none;
-	margin-top: 100px;
+	margin-top: 75px;
 	margin-bottom: 15px;
 	width: 80%;
 	margin-left: 10%;
@@ -145,9 +145,23 @@ body {
 
 #warning-text {
 	font-weight: bold;
+	color: #4DADFF;
+	padding-bottom: 10px;
+	display: none;
+}
+
+#spelling-text{
+	font-size: 120%;
+	font-weight: bold;
 	color: red;
 	padding-bottom: 10px;
 	display: none;
+}
+
+#corrected-text{
+	font-style: italic;
+	text-decoration: underline;
+	cursor: pointer;
 }
 
 #warning-box {
@@ -182,6 +196,7 @@ body {
 }
 
 #loading-gif {
+	margin-top: 15px;
 	background: url("ajax-loader.gif") no-repeat center;
 	height: 32px;
 	width: 100%;
@@ -217,6 +232,9 @@ body {
 }
 
 #loading-text {
+	font-size: 130%;
+	font-weight: bold;
+	color: #4DADFF;
 	margin-top: -20px;
 }
 
