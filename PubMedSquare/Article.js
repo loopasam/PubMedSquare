@@ -1,5 +1,4 @@
 function Article() {
-
 	this.journal_citation;
 	this.element = $('<div class="small article element" title="Click to open" citation="0" date="0" ></div>');
 	this.title = "[Title not retieved]";

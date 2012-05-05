@@ -7,8 +7,6 @@ $(document).ready(function() {
 	current_query = $('#search-bar-input').val();
 	$('#search-bar-input').val(help_text);
 
-	//TODO convert the review tag into review query: (rdf) AND "review"[Filter]
-
 	$('#search-button').click(function(){
 		var query = $('#search-bar-input').val();
 		if(query != help_text && query != ""){
@@ -25,6 +23,14 @@ $(document).ready(function() {
 				}
 				$("#loading-small").show();
 				$('#spelling-text').hide();
+				var re  =  new RegExp("#review");
+				if(query.match(re)){
+					var trimmedQuery = query.replace("#review", "");
+					trimmedQuery = '(' + trimmedQuery + ') "review"[Filter]';
+					console.log(trimmedQuery);
+					query = trimmedQuery;
+				}
+
 				pubmedSearch(query);
 			}
 		}
@@ -98,6 +104,15 @@ $(document).ready(function() {
 		return false;
 	});
 
+	$('#logo-text').click(function(){
+		$('#explanations').fadeIn("slow");
+	});
+
+	$('#close-explanations').click(function(){
+		$('#explanations').fadeOut("slow");
+	});
+
+
 	$('#sort-date').click(function(){
 		$('#sort-citations > .button-filter').removeClass("clicked");
 		$('#sort-date > .button-filter').addClass("clicked");
@@ -130,7 +145,7 @@ $(document).ready(function() {
 var $container = $('#container');
 var window_articles = 0;
 var current_query;
-var help_text = "Keywords (e.g. 'cancer'), title, author, date, #review";
+var help_text = "Keywords (e.g. 'cancer'), title, author, date. Option: #review";
 var renderingMethod = "append";
 var firstQuery = true;
 
@@ -139,23 +154,31 @@ function pubmedSearch(query){
 	moveSearchBarToTheTop();
 	current_query = query;
 
-	$.ajax({
-		type: "GET",
-		async: true,
-		url: "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/espell.fcgi?",
-		data: { db: "pubmed", term: query}
-	}).done(function( xml ) {
-		var correctedQuery = $(xml).find('CorrectedQuery').text();
-		if(correctedQuery != ""){
-			$('#spelling-text').html("Do you mean <span id='corrected-text'>" + correctedQuery + "</span> ?");
-			$('#spelling-text').show();
-			$('#corrected-text').click(function(){
-				$('#search-bar-input').val(correctedQuery);
-				$('#spelling-text').hide();
-				$('#search-button').click();
-			});
-		}
-	});
+	var re  =  /\[Filter\]/;
+	if(!re.test(query)){
+		$.ajax({
+			type: "GET",
+			async: true,
+			url: "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/espell.fcgi?",
+			data: { db: "pubmed", term: query},
+			succes: function(xml){
+				var correctedQuery = $(xml).find('CorrectedQuery').text();
+
+				if(correctedQuery != ""){
+					$('#spelling-text').html("Do you mean <span id='corrected-text'>" + correctedQuery + "</span> ?");
+					$('#spelling-text').show();
+					$('#corrected-text').click(function(){
+						$('#search-bar-input').val(correctedQuery);
+						$('#spelling-text').hide();
+						$('#search-button').click();
+					});
+				}
+			},
+			error: function(){
+				$('#service-down').show();				
+			}
+		});
+	}
 
 
 	$.ajax({
@@ -172,7 +195,7 @@ function pubmedSearch(query){
 		if(ids.length == 0){
 			$('#warning-text').html("No article matching this query :-(");
 			$("#loading").hide();
-			$("#loading-small").show();
+			$("#loading-small").hide();
 			$('#filter-box').show();
 			$('#warning-text').show();
 		}
