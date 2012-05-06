@@ -104,9 +104,11 @@ $(document).ready(function() {
 
 	$('#logo-text').click(function(){
 		$('#explanations').fadeIn("slow");
+		$('#container').hide();
 	});
 
 	$('#close-explanations').click(function(){
+		$('#container').show();
 		$('#explanations').fadeOut("slow");
 	});
 

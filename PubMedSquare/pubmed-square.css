@@ -99,6 +99,14 @@ body {
 	color: #ffa650;
 }
 
+.social-button{
+	margin-top: 15px;
+	margin-bottom: 15px;
+	display: inline-block;
+	width: 20%;
+	min-width: 250px;
+}
+
 
 #close-explanations:hover{
 	background: url("close-hover.png") no-repeat center;
