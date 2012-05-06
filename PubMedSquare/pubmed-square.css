@@ -60,20 +60,21 @@ body {
 }
 
 #explanations-text{
+	font-size: 150%;
 	position: absolute;
 	margin-left: 20%;
 	margin-right: 20%;
-	margin-top: 20%;
+	margin-top: 10%;
 	margin-bottom: 20%;
 	width: 60%;
-	height: 60%;
 	background-color: #fff;
 	text-align: center;
 }
 
 #title-explanations{
-	font-size: 200%;
+	font-size: 300%;
 	font-weight: bold;
+	color: #4DADFF;
 }
 
 #close-explanations{
@@ -84,6 +85,20 @@ body {
 	height: 40px;
 	background: url("close.png") no-repeat center;;
 }
+
+#explanation{
+	margin-top: 10px;
+	line-height: 1.4em;
+}
+
+#explanation a{
+	color: #4DADFF;
+}
+
+#explanation a:hover{
+	color: #ffa650;
+}
+
 
 #close-explanations:hover{
 	background: url("close-hover.png") no-repeat center;

@@ -32,8 +32,11 @@ Article.prototype.registerClick = function($container){
 };
 
 Article.prototype.render = function($container, renderingMethod){
+	
+	if(this.title == ""){
+		this.title = "[No title available]";
+	}
 
-	//TODO check for long words
 	var trimmedTitle;
 	if(this.title.length > 110){
 		trimmedTitle = this.title.substring(0, 110) + "...";
@@ -52,6 +55,7 @@ Article.prototype.render = function($container, renderingMethod){
 		clearedTitle.push(titleArray[i]);
 	}
 	trimmedTitle = clearedTitle.join(" ");
+	
 	var titleArticle = $('<div class="text-title-article">' + trimmedTitle + '</div>');
 	this.element.append(titleArticle);
 	this.element.css('background-color', this.color);

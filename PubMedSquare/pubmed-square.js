@@ -152,6 +152,7 @@ function pubmedSearch(query){
 	moveSearchBarToTheTop();
 	current_query = query;
 
+	
 	var re  =  /\[Filter\]/;
 	if(!re.test(query)){
 		$.ajax({
@@ -159,9 +160,8 @@ function pubmedSearch(query){
 			async: true,
 			url: "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/espell.fcgi?",
 			data: { db: "pubmed", term: query},
-			succes: function(xml){
+			success: function(xml){
 				var correctedQuery = $(xml).find('CorrectedQuery').text();
-
 				if(correctedQuery != ""){
 					$('#spelling-text').html("Do you mean <span id='corrected-text'>" + correctedQuery + "</span> ?");
 					$('#spelling-text').show();
