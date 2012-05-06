@@ -144,6 +144,7 @@ body {
 }
 
 .article {
+	overflow: hidden;
 	cursor: pointer;
 	width: 147px;
 	height: 208px;
@@ -288,7 +289,7 @@ body {
 	padding-left: 10px;
 	padding-right: 10px;
 	padding-top: 15px;
-	font-size: 120%;
+	font-size: 110%;
 	font-weight: bold;
 	display: none;
 }

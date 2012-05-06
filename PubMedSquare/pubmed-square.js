@@ -1,7 +1,5 @@
 $(document).ready(function() {
 
-	//TODO check if conencted --> error message
-
 	//TODO explanation when click on 'pubmed logo'
 
 	current_query = $('#search-bar-input').val();
@@ -243,15 +241,20 @@ function pubmedSearch(query){
 					var dateString = year + " " + getMonth(month) + " " + day;
 
 					var authorsList = "";
-
+					var authorCounter = 0;
 					var authors = $(this).find('AuthorList Author').each(function(){
 						var lastname = $(this).find('LastName').text();
 						var initial = $(this).find('Initials').text();
-
-						if(authorsList == ""){
-							authorsList = lastname + " " + initial;
-						}else{
-							authorsList += ", " + lastname + " " + initial;
+						if(authorCounter < 10){
+							if(authorsList == ""){
+								authorsList = lastname + " " + initial;
+							}else{
+								authorsList += ", " + lastname + " " + initial;
+							}
+							authorCounter++;
+						}else if(authorCounter == 10){
+							authorsList += "...";
+							authorCounter++;
 						}
 					});
 

@@ -33,7 +33,6 @@ Article.prototype.registerClick = function($container){
 
 Article.prototype.render = function($container, renderingMethod){
 
-	//TODO put a while loop and check for text height instead
 	//TODO check for long words
 	var trimmedTitle;
 	if(this.title.length > 110){
@@ -42,6 +41,17 @@ Article.prototype.render = function($container, renderingMethod){
 		trimmedTitle = this.title;
 	}
 
+	var titleArray = trimmedTitle.split(" ");
+	var clearedTitle = [];
+	for(var i =0; i < titleArray.length; i++){
+		if(titleArray[i].length > 16){
+			var beg = titleArray[i].substring(0, 16);
+			var end = titleArray[i].substring(16);
+			titleArray[i] = beg + "-" + end;
+		}
+		clearedTitle.push(titleArray[i]);
+	}
+	trimmedTitle = clearedTitle.join(" ");
 	var titleArticle = $('<div class="text-title-article">' + trimmedTitle + '</div>');
 	this.element.append(titleArticle);
 	this.element.css('background-color', this.color);
@@ -59,23 +69,28 @@ Article.prototype.render = function($container, renderingMethod){
 		$('#container').append( this.element).isotope( 'reloadItems' ).isotope({ sortBy : 'date', sortAscending : false});
 	}
 
+	var trimmedFullTitle;
+	if(this.title.length > 220){
+		trimmedFullTitle = this.title.substring(0, 220) + "...";
+	}else{
+		trimmedFullTitle = this.title;
+	}
 
-	var fullTitle = $('<div class="full-title">'+this.title+'</div>');
+
+	var fullTitle = $('<div class="full-title">'+trimmedFullTitle+'</div>');
 	this.element.append(fullTitle);
 
-	//TODO verifier la taille author arrtay
 	var authorList = $('<div class="authors">'+ this.authors +'</div>');
 	this.element.append(authorList);
 
 
 	var trimmedAffiliation;
-	if(this.affiliation.length > 100){
-		trimmedAffiliation = this.affiliation.substring(0, 100) + "...";
+	if(this.affiliation.length > 120){
+		trimmedAffiliation = this.affiliation.substring(0, 120) + "...";
 	}else{
 		trimmedAffiliation = this.affiliation;
 	}
 
-	//TODO deal with affiliation like abstract
 	var affiliation = $('<div class="affiliation">'+trimmedAffiliation+'</div>');
 	this.element.append(affiliation);
 
@@ -99,8 +114,8 @@ Article.prototype.render = function($container, renderingMethod){
 
 
 	var trimmedAbstract = this.abstractText.replace(/(http:\/\/.*?)([\s(),]|\.{0,1}$)/g, '<a target="BLANK" href="$1">$1</a>$2');
-	if(this.abstractText.length > 2000){
-		trimmedAbstract = trimmedAbstract.substring(0, 2000) + '...<a target="BLANK" href="http://www.ncbi.nlm.nih.gov/pubmed/' +this.pmid+'">[read&nbsp;more]</a>';
+	if(this.abstractText.length > 1600){
+		trimmedAbstract = trimmedAbstract.substring(0, 1600) + '...<a target="BLANK" href="http://www.ncbi.nlm.nih.gov/pubmed/' +this.pmid+'">[read&nbsp;more]</a>';
 	}
 
 	if(trimmedAbstract == ""){
@@ -143,11 +158,13 @@ function registerAbstractButton(element, showAbstractButton){
 	showAbstractButton.click(function(){
 
 		var text = element.find(".abstract-text");
+		var affiliation = element.find(".affiliation");
 
 		if(element.hasClass("extended")){
 			showAbstractButton.removeClass("extended-mode");
 			showAbstractButton.text("Show Abstract");
 			text.hide();
+			affiliation.hide();
 			element.removeClass("extended");
 			var width = element.css('width');
 			width = width.substring(0, width.length - 2);
@@ -159,6 +176,7 @@ function registerAbstractButton(element, showAbstractButton){
 			element.css('width', newWidth + "px");
 		}else{
 			text.show();
+			affiliation.show();
 			showAbstractButton.addClass("extended-mode");
 			showAbstractButton.text("Hide Abstract");
 			element.addClass("extended");
@@ -190,6 +208,7 @@ function animateToBig(that){
 
 	that.find('.text-title-article').hide();
 	that.find('.abstract-text').hide();
+	that.find('.affiliation').hide();
 	that.attr('title', 'Double-click to close');
 
 	$("#container").isotope( 'reLayout');
