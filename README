@@ -1,0 +1,21 @@
+ ______       _     ______           _       _                                 
+(_____ \     | |   |  ___ \         | |     | |                                
+ _____) )   _| | _ | | _ | | ____ _ | |      \ \   ____ _   _  ____  ____ ____ 
+|  ____/ | | | || \| || || |/ _  ) || |       \ \ / _  | | | |/ _  |/ ___) _  )
+| |    | |_| | |_) ) || || ( (/ ( (_| |   _____) ) | | | |_| ( ( | | |  ( (/ / 
+|_|     \____|____/|_||_||_|\____)____|  (______/ \_|| |\____|\_||_|_|   \____)
+                                                     |_|                       
+
+                                                     
+PubMed is a popular website to query the research literature related to medicine and life science.
+PubMed² is an experiment exploring new interactive ways to visualise the search results from PubMed on tablets, smart phones and classical computers.
+
+How to use: Enter a normal PubMed or Google query, based on keywords. You can add the tag #review if you want to focus your search only on review articles.
+
+Info:
+
+Author: www.samuelcroset.com
+Source: https://github.com/loopasam/PubMedSquare
+Bug report & feedback: http://www.samuelcroset.com/contact
+Credit for JS lib: https://github.com/desandro/isotope
+Credit for data usage: http://www.ncbi.nlm.nih.gov/pubmed/
