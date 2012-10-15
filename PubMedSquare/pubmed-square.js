@@ -176,8 +176,8 @@ function pubmedSearch(query){
 
 	//Do the spell check
 	//TODO regarder mieux
-	var re  =  /\[Filter\]/;
-	if(!re.test(query)){
+//	var re  =  /\[Filter\]/;
+//	if(!re.test(query)){
 		$.ajax({
 			type: "GET",
 			async: true,
@@ -200,7 +200,7 @@ function pubmedSearch(query){
 				$("#loading").hide();
 			}
 		});
-	}
+//	}
 
 	var window;
 	if(isReviewQuery){
