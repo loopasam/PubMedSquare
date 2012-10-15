@@ -160,6 +160,7 @@ var current_query;
 var help_text = "Type some keywords (e.g. 'cancer' or 'apoptosis regulation')";
 var renderingMethod = "append";
 var firstQuery = true;
+//TODO add a review tag
 
 function pubmedSearch(query){
 	$('#warning-text').html("Loading...");
