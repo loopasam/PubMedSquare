@@ -7,10 +7,14 @@ $(document).ready(function() {
 		var query = $('#search-bar-input').val();
 		if(query != help_text && query != ""){
 			if(query != current_query){
+				isReviewQuery = false;
 				$('.article').remove();
 				$('#sort-citations > .button-filter').removeClass("clicked");
 				$('#sort-date > .button-filter').addClass("clicked");
 				window_articles = 0;
+				window_reviews = 0;
+				noMoreReviews = false;
+				noMoreArticles = false;
 				$container.isotope( 'remove', $('.article'));
 				renderingMethod = "append";
 				if(firstQuery == true){
@@ -121,24 +125,25 @@ $(document).ready(function() {
 	$('#show-review').toggle(function(){
 		$('#container').isotope({ filter: '.review' });
 		$('#show-review > .button-filter').addClass("clicked");
-		//TODO regler ca
-		if($(".review").length == 0){
-			var reviewQuery = '(' + current_query + ') "review"[Filter]';
-			console.log(reviewQuery);
-			if(!$('#more-results .button-filter').hasClass('loading')){
-				$('#loading-small').show();
-				$('#more-results .button-filter').html("Loading reviews...");
-				$('#more-results .button-filter').addClass('loading');
-				renderingMethod = "insert";
-				pubmedSearch(reviewQuery);
-			}
+		isReviewQuery = true;
+		if(noMoreReviews == true){
+			turnOffQueryButton();
 		}else{
-			console.log("deja une review");
+			turnOnQueryButton();
+		}
+		if($(".review").length == 0){
+			$('#more-results').click();
 		}
 		return false;
 	}, function(){
 		$('#container').isotope({ filter: '*:not(.review)' });
 		$('#show-review > .button-filter').removeClass("clicked");
+		isReviewQuery = false;
+		if(noMoreArticles == true){
+			turnOffQueryButton();
+		}else{
+			turnOnQueryButton();
+		}
 	});
 
 	$('#more-results').click(function(){
@@ -156,18 +161,21 @@ $(document).ready(function() {
 
 var $container = $('#container');
 var window_articles = 0;
+var window_reviews = 0;
 var current_query;
 var help_text = "Type some keywords (e.g. 'cancer' or 'apoptosis regulation')";
 var renderingMethod = "append";
 var firstQuery = true;
-//TODO add a review tag
+var isReviewQuery = false;
+var noMoreReviews = false;
+var noMoreArticles = false;
 
 function pubmedSearch(query){
-	$('#warning-text').html("Loading...");
 	moveSearchBarToTheTop();
 	current_query = query;
 
-
+	//Do the spell check
+	//TODO regarder mieux
 	var re  =  /\[Filter\]/;
 	if(!re.test(query)){
 		$.ajax({
@@ -188,22 +196,33 @@ function pubmedSearch(query){
 				}
 			},
 			error: function(){
-				$('#service-down').show();				
+				$('#service-down').show();
+				$("#loading").hide();
 			}
 		});
 	}
 
+	var window;
+	if(isReviewQuery){
+		window = window_reviews;
+		//TODO add a checking here for the tags
+		query = '(' + query + ') "review"[Filter]';
+	}else{
+		window = window_articles;
+	}
 
 	$.ajax({
 		type: "GET",
 		async: true,
 		url: "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi",
-		data: { db: "pubmed", retmax: window_articles+20, term: query}
+		data: { db: "pubmed", retmax: window+20, term: query}
 	}).done(function( xml ) {
 		var ids = [];
 		$(xml).find('IdList Id').each(function(){
 			ids.push($(this).text());
 		});
+		
+		console.log(ids);
 
 		if(ids.length == 0){
 			$('#warning-text').html("No article matching this query :-(");
@@ -214,9 +233,10 @@ function pubmedSearch(query){
 		}
 
 		var numberOfArticles = $(xml).find('eSearchResult > Count').text();
+		console.log("search results: " + numberOfArticles);
 		var id_to_retrieve = [];
 		var noMoreResults = false;
-		for(var i = window_articles; i < window_articles + 20; i++){
+		for(var i = window; i < window + 20; i++){
 			if(ids[i] != undefined){
 				id_to_retrieve.push(ids[i]);
 			}else{
@@ -224,8 +244,20 @@ function pubmedSearch(query){
 			}
 		}
 
-		window_articles = window_articles + id_to_retrieve.length;
-		console.log(id_to_retrieve);
+		if(noMoreResults){
+			if(isReviewQuery){
+				noMoreReviews = true;
+			}else{
+				noMoreArticles = true;
+			}
+		}
+
+		if(isReviewQuery){
+			window_reviews = window_reviews + id_to_retrieve.length;
+		}else{
+			window_articles = window_articles + id_to_retrieve.length;
+		}
+
 		if(id_to_retrieve[0] != undefined){
 			$.ajax({
 				type: "GET",
@@ -233,19 +265,14 @@ function pubmedSearch(query){
 				url: "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi",
 				data: { db: "pubmed", id: id_to_retrieve.join(","), rettype: "full", retmode: "xml" }
 			}).done(function( xml ) {
-				console.log("done");
-				$('#warning-text').html(window_articles + " most recent articles displayed (total: " + numberOfArticles + ")");
 				$("#loading").hide();
 				$('#loading-small').hide();
 				$('#filter-box').show();
 				$('#warning-text').show();
 				if(noMoreResults){
-					$('#more-results .button-filter').addClass('loading');
-					$('#more-results .button-filter').html("No more results");
-					$('#more-results .button-filter').addClass("blocked");
+					turnOffQueryButton();
 				}else{
-					$('#more-results .button-filter').html("More results");
-					$('#more-results .button-filter').removeClass('loading');
+					turnOnQueryButton();
 				}
 
 				$(xml).find('PubmedArticle').each(function(){
@@ -281,11 +308,11 @@ function pubmedSearch(query){
 						publicationTypes.push(publication.toLowerCase());
 					});
 
-
 					var abstractText = $(this).find('AbstractText').text();
 					var title = $(this).find('ArticleTitle').text();
 					var issn = $(this).find('ISSNLinking').text();
 					var pmid = $(this).find('MedlineCitation > PMID').text();
+					console.log(pmid);
 					var affiliation = $(this).find('Affiliation').text();
 					var abbrevJournal = $(this).find('MedlineTA').text();
 					var impact = getCitation(issn);
@@ -303,7 +330,15 @@ function pubmedSearch(query){
 					article.isReview = isReview(publicationTypes);
 					article.abstractText = abstractText;
 					article.registerClick($container);
-					article.render($container, renderingMethod);
+
+					if(!isReviewQuery && !article.isReview){
+						article.render($container, renderingMethod);
+					}else if(isReviewQuery && article.isReview){
+						article.render($container, renderingMethod);
+					}else{
+						console.log("catched by filter");
+						console.log(pmid);
+					}
 				});
 			});
 		}
@@ -323,6 +358,17 @@ function moveSearchBarToTheTop(){
 	$("#out").animate({
 		top: "0%"
 	}, 200 );
+}
+
+function turnOffQueryButton(){
+	$('#more-results .button-filter').addClass('loading');
+	$('#more-results .button-filter').html("No more results");
+	$('#more-results .button-filter').addClass("blocked");
+}
+
+function turnOnQueryButton() {
+	$('#more-results .button-filter').html("More results");
+	$('#more-results .button-filter').removeClass('loading');
 }
 
 function getMonth(number){
