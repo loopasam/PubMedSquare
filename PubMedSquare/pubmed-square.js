@@ -225,11 +225,12 @@ function pubmedSearch(query){
 		console.log(ids);
 
 		if(ids.length == 0){
-			$('#warning-text').html("No article matching this query :-(");
+//			$('#warning-text').html("No article matching this query :-(");
 			$("#loading").hide();
 			$("#loading-small").hide();
 			$('#filter-box').show();
 			$('#warning-text').show();
+			turnOffQueryButton();
 		}
 
 		var numberOfArticles = $(xml).find('eSearchResult > Count').text();

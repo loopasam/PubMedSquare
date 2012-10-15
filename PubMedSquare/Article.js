@@ -22,13 +22,17 @@ Article.prototype.registerClick = function($container){
 		if(that.hasClass("small")){
 			animateToBig(that);
 		}
-	});
-
-	this.element.dblclick(function(){
-		if(that.hasClass("big")){
+		else if(that.hasClass("big")){
 			animateToSmall(that);
 		}
 	});
+
+	//TODO vient d'etre commented
+//	this.element.dblclick(function(){
+//		if(that.hasClass("big")){
+//			animateToSmall(that);
+//		}
+//	});
 };
 
 Article.prototype.render = function($container, renderingMethod){
@@ -159,8 +163,9 @@ Article.prototype.setImpact = function(impact){
 };
 
 function registerAbstractButton(element, showAbstractButton){
-	showAbstractButton.click(function(){
+	showAbstractButton.click(function(event){
 
+		event.stopPropagation();
 		var text = element.find(".abstract-text");
 		var affiliation = element.find(".affiliation");
 
