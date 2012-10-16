@@ -1,0 +1,185 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<script type="text/javascript"
+	src="http://code.jquery.com/jquery-latest.js"></script>
+
+<link type="text/css" href="pubmed-square.css" rel="Stylesheet" />
+
+<script type="text/javascript" src="Article.js"></script>
+<script type="text/javascript" src="citation.js"></script>
+<script type="text/javascript" src="jquery.isotope.min.js"></script>
+<script type="text/javascript" src="pubmed-square.js"></script>
+<link rel="shortcut icon" href="pubmed-square-favicon.png" />
+
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>PubMed&#178;</title>
+<meta name="description" content="PubMed Square is an experiment exploring new interactive ways to visualise the search results from PubMed on tablets, smart phones and classical computers">
+<meta name="keywords" content="pubmed square, pubmed iphone, pubmed android, pubmed new, pubmed experiment, literature visualisation, biomedical search engine">
+<meta name="author" content="Samuel Croset">
+<meta NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
+<meta property="og:title" content="PubMed Square" />
+<meta property="og:description" content="PubMed Square is an experiment exploring new interactive ways to visualise the search results from PubMed on tablets, smart phones and classical computers." />
+<meta property="og:image" content="pubmed-square-favicon.png" />
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-17382954-8']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+</head>
+<body>
+<div id="question-mark">(?)</div>
+	<div id="explanations">
+		<div id="close-explanations"></div>
+		<div id="explanations-text">
+			<div id="title-explanations">PubMed&#178;</div>
+			<div id="explanation">PubMed is a popular website to query the
+				research literature related to medicine and life science.
+				PubMed&#178; is an experiment exploring new interactive ways to
+				visualise the search results from PubMed on tablets, smart phones
+				and classical computers.</div>
+			<div id="explanation">
+				<b>How to use:</b> Enter a normal PubMed or Google query, based on
+				keywords.
+			</div>
+
+			<hr>
+			<div id="explanation">
+				<b>More info: </b> <a href="https://github.com/desandro/isotope"
+					target="_blank">Library credit</a> | <a
+					href="http://www.ncbi.nlm.nih.gov/pubmed/" target="_blank">Data
+					credit</a> | <a href="http://www.samuelcroset.com/contact"
+					target="_blank">Feedback & bug report</a> | <a
+					href="https://github.com/loopasam/PubMedSquare" target="_blank">Source
+					code</a> | <a href="http://www.samuelcroset.com/" target="_blank">Author</a>
+				<a href="https://twitter.com/samuel_croset"
+					class="twitter-follow-button" data-show-count="false">Follow
+					@samuel_croset</a>
+				<script>
+					!function(d, s, id) {
+						var js, fjs = d.getElementsByTagName(s)[0];
+						if (!d.getElementById(id)) {
+							js = d.createElement(s);
+							js.id = id;
+							js.src = "//platform.twitter.com/widgets.js";
+							fjs.parentNode.insertBefore(js, fjs);
+						}
+					}(document, "script", "twitter-wjs");
+				</script>
+			</div>
+
+			<hr>
+			<div id="share-box">
+				<div class="social-button">
+					<a href="https://twitter.com/share" class="twitter-share-button"
+						data-url="http://pubmed-square.org" data-via="samuel_croset">Tweet</a>
+					<script>
+						!function(d, s, id) {
+							var js, fjs = d.getElementsByTagName(s)[0];
+							if (!d.getElementById(id)) {
+								js = d.createElement(s);
+								js.id = id;
+								js.src = "//platform.twitter.com/widgets.js";
+								fjs.parentNode.insertBefore(js, fjs);
+							}
+						}(document, "script", "twitter-wjs");
+					</script>
+				</div>
+
+				<div class="social-button">
+					<g:plusone annotation="inline" href="http://pubmed-square.org"></g:plusone>
+					<script type="text/javascript">
+						(function() {
+							var po = document.createElement('script');
+							po.type = 'text/javascript';
+							po.async = true;
+							po.src = 'https://apis.google.com/js/plusone.js';
+							var s = document.getElementsByTagName('script')[0];
+							s.parentNode.insertBefore(po, s);
+						})();
+					</script>
+				</div>
+				<div class="social-button">
+					<script src="//platform.linkedin.com/in.js" type="text/javascript"></script>
+					<script type="IN/Share" data-url="http://pubmed-square.org"
+						data-counter="right"></script>
+				</div>
+
+				<div class="social-button">
+					<div id="fb-root"></div>
+					<script>
+						(function(d, s, id) {
+							var js, fjs = d.getElementsByTagName(s)[0];
+							if (d.getElementById(id))
+								return;
+							js = d.createElement(s);
+							js.id = id;
+							js.src = "//connect.facebook.net/en_GB/all.js#xfbml=1";
+							fjs.parentNode.insertBefore(js, fjs);
+						}(document, 'script', 'facebook-jssdk'));
+					</script>
+					<div class="fb-like" data-href="http://pubmed-square.org"
+						data-send="false" data-width="450" data-show-faces="false"></div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<div id="spacer"></div>
+	<div id="out">
+		<div class="column left">
+			<div id="logo">
+				<div id="logo-text">PubMed&#178;</div>
+			</div>
+		</div>
+		<div class="column middle">
+			<input id="search-bar-input" class="indication" type="text" />
+		</div>
+		<div class="column right">
+			<div id="search-button">Search</div>
+		</div>
+		<div id="loading">
+			<div id="loading-text">Displaying recent articles...</div>
+			<div id="loading-gif"></div>
+		</div>
+	</div>
+	<div id="service-down">PubMed services are down. Come back in a
+		few minutes!</div>
+	<div id="filter-box">
+		<div id="warning-box">
+			<div id="spelling-text">spelling</div>
+			<div id="warning-text"></div>
+		</div>
+		<div class="button-container" id="sort-date">
+			<div class="clicked button-filter">By date</div>
+		</div>
+		<div class="button-container" id="sort-citations">
+			<div class="button-filter">By journal citations</div>
+		</div>
+		<div class="button-container" id="show-review">
+			<div class="button-filter">Reviews</div>
+		</div>
+		<div class="button-container" id="expand-all">
+			<div class="button-filter">Expand articles</div>
+		</div>
+		<div class="button-container" id="collapse-all">
+			<div class="button-filter">Collapse articles</div>
+		</div>
+		<div class="button-container" id="more-results">
+			<div class="button-filter">More results</div>
+			<div id="loading-small"></div>
+		</div>
+	</div>
+	<div id="container"></div>
+
+</body>
+</html>
