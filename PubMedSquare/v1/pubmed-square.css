@@ -46,7 +46,25 @@ body {
 	color: #4dadff;
 }
 
-#explanations{
+#question-mark:hover {
+	color: #ffa650;
+	cursor: help;
+	text-shadow: 0 0 0.6em #fbec41;
+}
+
+
+#question-mark {
+	z-index: 80;
+	position: fixed;
+	line-height: 30px;
+	font-size: 30px;
+	bottom: 15px;
+	right: 5px;
+	font-weight: bold;
+	color: #4dadff;
+}
+
+#explanations {
 	display: none;
 	position: absolute;
 	width: 100%;
@@ -54,12 +72,12 @@ body {
 	z-index: 100;
 	overflow: auto;
 	opacity: 0.95;
-	filter: alpha(opacity = 95);
+	filter: alpha(opacity =   95);
 	display: none;
 	background-color: #ffffff;
 }
 
-#explanations-text{
+#explanations-text {
 	font-size: 150%;
 	position: absolute;
 	margin-left: 20%;
@@ -71,13 +89,13 @@ body {
 	text-align: center;
 }
 
-#title-explanations{
+#title-explanations {
 	font-size: 300%;
 	font-weight: bold;
 	color: #4DADFF;
 }
 
-#close-explanations{
+#close-explanations {
 	position: absolute;
 	top: 20px;
 	right: 20px;
@@ -86,20 +104,20 @@ body {
 	background: url("close.png") no-repeat center;
 }
 
-#explanation{
+#explanation {
 	margin-top: 10px;
 	line-height: 1.4em;
 }
 
-#explanation a{
+#explanation a {
 	color: #4DADFF;
 }
 
-#explanation a:hover{
+#explanation a:hover {
 	color: #ffa650;
 }
 
-.social-button{
+.social-button {
 	margin-top: 15px;
 	margin-bottom: 15px;
 	display: inline-block;
@@ -107,13 +125,12 @@ body {
 	min-width: 250px;
 }
 
-
-#close-explanations:hover{
+#close-explanations:hover {
 	background: url("close-hover.png") no-repeat center;
 	cursor: pointer;
 }
 
-#logo-text:hover{
+#logo-text:hover {
 	color: #ffa650;
 	cursor: help;
 	text-shadow: 0 0 0.6em #fbec41;
@@ -137,11 +154,11 @@ body {
 	padding: 5px;
 }
 
-#search-button:hover{
+#search-button:hover {
 	background-color: #8ac9ff;
 }
 
-.indication{
+.indication {
 	color: #aeaeae;
 }
 
@@ -220,7 +237,7 @@ body {
 	display: none;
 }
 
-#spelling-text{
+#spelling-text {
 	font-size: 120%;
 	font-weight: bold;
 	color: red;
@@ -228,7 +245,7 @@ body {
 	display: none;
 }
 
-#corrected-text{
+#corrected-text {
 	font-style: italic;
 	text-decoration: underline;
 	cursor: pointer;
@@ -245,17 +262,17 @@ body {
 	text-align: center;
 }
 
-.loading{
+.loading {
 	font-style: italic;
 	cursor: wait !important;
 	background-color: #d4d4d4 !important;
 }
 
-.blocked{
+.blocked {
 	cursor: not-allowed !important;
 }
 
-#loading-small{
+#loading-small {
 	background: url("ajax-loader.gif") no-repeat center;
 	height: 32px;
 	width: 32px;
@@ -272,7 +289,7 @@ body {
 	width: 100%;
 }
 
-.button-filter{
+.button-filter {
 	text-overflow: ellipsis;
 	border: 2px solid #d4d4d4;
 	font-weight: bold;
@@ -289,15 +306,15 @@ body {
 	padding-bottom: 5px;
 }
 
-.button-filter:hover{
+.button-filter:hover {
 	background-color: #8ac9ff;
 }
 
-.clicked{
+.clicked {
 	background-color: #ffa650;
 }
 
-.clicked:hover{
+.clicked:hover {
 	background-color: #ffbc7a;
 }
 
@@ -342,7 +359,8 @@ body {
 }
 
 .affiliation {
-	color: #454545; font-size : 90%;
+	color: #454545;
+	font-size: 90%;
 	padding-left: 10px;
 	padding-right: 10px;
 	padding-top: 15px;
@@ -356,7 +374,6 @@ body {
 
 .pmid-link {
 	display: inline-block;
-
 }
 
 .show-abstract-button {
@@ -370,7 +387,7 @@ body {
 	-khtml-border-radius: 5px;
 	border-radius: 5px;
 	background-color: #f2f2f2;
-	text-align : justify;
+	text-align: justify;
 	padding-left: 10px;
 	padding-right: 10px;
 	padding-top: 15px;
@@ -380,7 +397,7 @@ body {
 	margin-left: 5px;
 }
 
-.abstract-text a{
+.abstract-text a {
 	color: #4dadff;
 	text-decoration: none;
 }
@@ -401,26 +418,25 @@ body {
 	cursor: pointer;
 }
 
-.button-extended:hover{
+.button-extended:hover {
 	background-color: #8ac9ff;
 }
 
-.extended-mode{
+.extended-mode {
 	background-color: #f2f2f2;
-	color: #000;	
+	color: #000;
 }
 
-.extended-mode:hover{
+.extended-mode:hover {
 	background-color: #d4d4d4;
 }
 
-
-.button-extended a{
+.button-extended a {
 	color: #fff;
 	text-decoration: none;
 }
 
-#service-down{
+#service-down {
 	margin-top: 90px;
 	text-align: center;
 	font-size: 140%;
