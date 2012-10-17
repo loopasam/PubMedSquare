@@ -3,6 +3,7 @@ $(document).ready(function() {
 	current_query = $('#search-bar-input').val();
 	$('#search-bar-input').val(help_text);
 
+	console.log("in initiation phase...");
 	$('#search-button').click(function(){
 		var query = $('#search-bar-input').val();
 		if(query != help_text && query != ""){
@@ -15,7 +16,8 @@ $(document).ready(function() {
 				window_reviews = 0;
 				noMoreReviews = false;
 				noMoreArticles = false;
-				$container.isotope( 'remove', $('.article'));
+				console.log("before isotope");
+				$('#container').isotope( 'remove', $('.article'));
 				renderingMethod = "append";
 				if(firstQuery == true){
 					$("#loading").show();
@@ -174,6 +176,7 @@ var firstQuery = true;
 var isReviewQuery = false;
 var noMoreReviews = false;
 var noMoreArticles = false;
+jQuery.support.cors = true; // force cross-site scripting (as of jQuery 1.5)
 
 function pubmedSearch(query){
 	moveSearchBarToTheTop();
@@ -183,6 +186,7 @@ function pubmedSearch(query){
 	//TODO regarder mieux
 //	var re  =  /\[Filter\]/;
 //	if(!re.test(query)){
+	console.log("going to check for spelling");
 		$.ajax({
 			type: "GET",
 			async: true,
@@ -201,6 +205,7 @@ function pubmedSearch(query){
 				}
 			},
 			error: function(){
+				console.log("spelling failed");
 				$('#service-down').show();
 				$("#loading").hide();
 			}
@@ -335,12 +340,12 @@ function pubmedSearch(query){
 					article.publicationTypes = publicationTypes;
 					article.isReview = isReview(publicationTypes);
 					article.abstractText = abstractText;
-					article.registerClick($container);
+					article.registerClick($('#container'));
 
 					if(!isReviewQuery && !article.isReview){
-						article.render($container, renderingMethod);
+						article.render($('#container'), renderingMethod);
 					}else if(isReviewQuery && article.isReview){
-						article.render($container, renderingMethod);
+						article.render($('#container'), renderingMethod);
 					}else{
 						console.log("catched by filter");
 						console.log(pmid);
