@@ -7,15 +7,19 @@ $(document).ready(function() {
 		var query = $('#search-bar-input').val();
 		if(query != help_text && query != ""){
 			if(query != current_query){
-				isReviewQuery = false;
+				if(isReviewQuery){
+					$('#show-review').click();
+					isReviewQuery = false;
+				}
 				$('.article').remove();
 				$('#sort-citations > .button-filter').removeClass("clicked");
 				$('#sort-date > .button-filter').addClass("clicked");
+
 				window_articles = 0;
 				window_reviews = 0;
 				noMoreReviews = false;
 				noMoreArticles = false;
-				$container.isotope( 'remove', $('.article'));
+				$('#container').isotope( 'remove', $('.article'));
 				renderingMethod = "append";
 				if(firstQuery == true){
 					$("#loading").show();
@@ -23,13 +27,6 @@ $(document).ready(function() {
 				}
 				$("#loading-small").show();
 				$('#spelling-text').hide();
-				//TODO remove this handling
-				var re  =  new RegExp("#review");
-				if(query.match(re)){
-					var trimmedQuery = query.replace("#review", "");
-					trimmedQuery = '(' + trimmedQuery + ') "review"[Filter]';
-					query = trimmedQuery;
-				}
 
 				pubmedSearch(query);
 			}
@@ -107,7 +104,7 @@ $(document).ready(function() {
 		$('#explanations').fadeIn("slow");
 		$('#container').hide();
 	});
-	
+
 	$('#question-mark').click(function(){
 		$('#explanations').fadeIn("slow");
 		$('#container').hide();
@@ -173,43 +170,38 @@ var firstQuery = true;
 var isReviewQuery = false;
 var noMoreReviews = false;
 var noMoreArticles = false;
+jQuery.support.cors = true; // force cross-site scripting (as of jQuery 1.5)
 
 function pubmedSearch(query){
 	moveSearchBarToTheTop();
 	current_query = query;
 
-	//Do the spell check
-	//TODO regarder mieux
-//	var re  =  /\[Filter\]/;
-//	if(!re.test(query)){
-		$.ajax({
-			type: "GET",
-			async: true,
-			url: "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/espell.fcgi?",
-			data: { db: "pubmed", term: query},
-			success: function(xml){
-				var correctedQuery = $(xml).find('CorrectedQuery').text();
-				if(correctedQuery != ""){
-					$('#spelling-text').html("Do you mean <span id='corrected-text'>" + correctedQuery + "</span> ?");
-					$('#spelling-text').show();
-					$('#corrected-text').click(function(){
-						$('#search-bar-input').val(correctedQuery);
-						$('#spelling-text').hide();
-						$('#search-button').click();
-					});
-				}
-			},
-			error: function(){
-				$('#service-down').show();
-				$("#loading").hide();
+	$.ajax({
+		type: "GET",
+		async: true,
+		url: "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/espell.fcgi?",
+		data: { db: "pubmed", term: query},
+		success: function(xml){
+			var correctedQuery = $(xml).find('CorrectedQuery').text();
+			if(correctedQuery != ""){
+				$('#spelling-text').html("Do you mean <span id='corrected-text'>" + correctedQuery + "</span> ?");
+				$('#spelling-text').show();
+				$('#corrected-text').click(function(){
+					$('#search-bar-input').val(correctedQuery);
+					$('#spelling-text').hide();
+					$('#search-button').click();
+				});
 			}
-		});
-//	}
+		},
+		error: function(){
+			$('#service-down').show();
+			$("#loading").hide();
+		}
+	});
 
 	var window;
 	if(isReviewQuery){
 		window = window_reviews;
-		//TODO add a checking here for the tags
 		query = '(' + query + ') "review"[Filter]';
 	}else{
 		window = window_articles;
@@ -225,10 +217,8 @@ function pubmedSearch(query){
 		$(xml).find('IdList Id').each(function(){
 			ids.push($(this).text());
 		});
-		
 
 		if(ids.length == 0){
-//			$('#warning-text').html("No article matching this query :-(");
 			$("#loading").hide();
 			$("#loading-small").hide();
 			$('#filter-box').show();
@@ -331,12 +321,12 @@ function pubmedSearch(query){
 					article.publicationTypes = publicationTypes;
 					article.isReview = isReview(publicationTypes);
 					article.abstractText = abstractText;
-					article.registerClick($container);
+					article.registerClick($('#container'));
 
 					if(!isReviewQuery && !article.isReview){
-						article.render($container, renderingMethod);
+						article.render($('#container'), renderingMethod);
 					}else if(isReviewQuery && article.isReview){
-						article.render($container, renderingMethod);
+						article.render($('#container'), renderingMethod);
 					}
 				});
 			});
